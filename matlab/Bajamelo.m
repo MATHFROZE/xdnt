@@ -1,28 +1,32 @@
 clc
 clear all
 
-tab= 1 %conocer los datos de carga --bandera
+% TODO % TODO:  ESPEJITO TACTICO
 
-area= 100 %area del terreno (m2)
+tab= 1 %  conocer los datos de carga --bandera
 
-fd= 0.7 %factor de demanda-- 70%
+area= 100 %  area del terreno (m2)
 
-inmueble= 1 %tipo de inmueble --Pagina 45 de la NOM
+fd= 0.7 %  factor de demanda-- 70%  
 
-ampacidad= 0.8 %corriente maxima sin exceder temperatura
+inmueble= 1 %  tipo de inmueble --Pagina 45 de la NOM
 
-tap= 1.2 %porcentaje de sobrecarga permitido
+ampacidad= 0.8 %  corriente maxima sin exceder temperatura
 
-fp= 0.9 %fp= 1 cuando no se conoce,  fp= 1 cargas resistivas,  fp= 0.9 minimo cfe --Becerril pag 137
+tap= 1.2 %  porcentaje de sobrecarga permitido
 
-l= 50 %longitud del conductor (m)
+fk= 1.2 %  factor sobredimensionamiento por armonicos
 
-e= 3 %porcentaje de caida en el circuito secundario -- NOM pag 36
+fp= 0.9 %  fp= 1 cuando no se conoce,  fp= 1 cargas resistivas,  fp= 0.9 minimo cfe --Becerril pag 137
 
-t= 38 %temperatura (°c)
+l= 50 %  longitud del conductor (m)
+
+e= 3 %  porcentaje de caida en el circuito secundario -- NOM pag 36
+
+t= 38 %  temperatura (°c)
 
 
-%Factor de corrección por temperatura
+%  Factor de corrección por temperatura
 if t>= 26 & t<= 30
     fct= 1 
 elseif t>= 31 & t<= 35
@@ -33,9 +37,9 @@ elseif t>= 41 & t<= 45
     fct= 0.71
 end
 
-if tab== 1 % tabla de carga instalada
+if tab== 1 %   tabla de carga instalada
 
-    %col1= numero de elementos,  col2=  consumo por elemento
+    %  col1= numero de elementos,  col2=  consumo por elemento
     r1= [8, 180];
     r2= [8, 180];
     r3= [7, 75];
@@ -54,15 +58,15 @@ if tab== 1 % tabla de carga instalada
 
     tabla= [r1;r2;r3;r4;r5;r6;r7;r8;r9;r10;r11;r12;r13;r14;r15];
 
-    ci= sum( tabla(:,  1) .* tabla(:,  2) ) %carga instalada (w)
+    ci= sum( tabla(:,  1) .* tabla(:,  2) ) %  carga instalada (w)
     
 else
-    carga= [33, 22] %carga por metro cuadrado (w/m2) -- pag 45 NOM
-    ci= carga(inmueble)*area %carga instalada (w)
+    carga= [33, 22] %  carga por metro cuadrado (w/m2) -- pag 45 NOM
+    ci= carga(inmueble)*area %  carga instalada (w)
 
 end
 
-pd= ci*fd %potencia demandada (w)
+pd= ci*fd %  potencia demandada (w)
 
 if pd<= 5e3
         disp('Servicio 1f,  2w,  vln=  120 v')
@@ -70,25 +74,25 @@ if pd<= 5e3
         ical= pd/(vln*fp*fct)
         scal= (4*l*ical)/(e*vln)
         disp('Transformador Estrella aterrizada - Estrella aterrizada')
-        trafo1= 1 %puede ser suministrado por transformador monofasico
-        trafo3= 1 %no puede ser suministrado por transformador trifasico
+        trafo1= 1 %  puede ser suministrado por transformador monofasico
+        trafo3= 1 %  no puede ser suministrado por transformador trifasico
         
-        %disp('No es susceptible a ferroresonancia')
-        %disp('Cargas monofasicas y trifasicas')
-        %disp('vll= 480 y vln= 240; vll= 240 y vln= 120')
-        sgsg= 1; %conexion estrella aterrizada - estrella aterrizada
+        %  disp('No es susceptible a ferroresonancia')
+        %  disp('Cargas monofasicas y trifasicas')
+        %  disp('vll= 480 y vln= 240; vll= 240 y vln= 120')
+        sgsg= 1; %  conexion estrella aterrizada - estrella aterrizada
         
-        %disp('No es susceptible a ferroresonancia')
-        %disp('Cargas monofasicas (iluminarias / pequeñas) y trifasicas')
-        %disp('Puede operar en estrella abierta- delta abierta)
-        %disp('vll= 480 y vln= 240; vll= 240 y vln= 120')
-        sgdg= 1; %conexion estrella aterrizada- delta aterrizada
+        %  disp('No es susceptible a ferroresonancia')
+        %  disp('Cargas monofasicas (iluminarias / pequeñas) y trifasicas')
+        %  disp('Puede operar en estrella abierta- delta abierta)
+        %  disp('vll= 480 y vln= 240; vll= 240 y vln= 120')
+        sgdg= 1; %  conexion estrella aterrizada- delta aterrizada
         
-        %%delta-delta aterrizada
-        %disp('cargas trifasicas y pequeñas cargas monofasicas(iluminacion'))
-        %disp('puede operar en delta abierta delta abierta en caso de falla o crecimiento')
-        %disp(3w, vll= 240, vln= 120')
-        dgdg= 0; %conexion delta aterrizada - delta aterrizada
+        %  %  delta-delta aterrizada
+        %  disp('cargas trifasicas y pequeñas cargas monofasicas(iluminacion'))
+        %  disp('puede operar en delta abierta delta abierta en caso de falla o crecimiento')
+        %  disp(3w, vll= 240, vln= 120')
+        dgdg= 0; %  conexion delta aterrizada - delta aterrizada
        
         
 elseif pd<= 10e3
@@ -135,8 +139,8 @@ else
         
 end
 
-%%NOM 001 SEDE pag.138
-%%Tabla de conductores
+%  %  NOM 001 SEDE pag.138
+%  %  Tabla de conductores
 r1= [3.31, 12, 20];
 r2= [5.26, 10, 30];
 r3= [8.37, 8, 40];
@@ -150,10 +154,10 @@ r10= [67.43, 200, 145];
 r11= [85.01, 300, 165];
 r12= [107.2, 400, 195];
 
-% Area (mm2),  Calibre,  Ampacidad (A)
+%   Area (mm2),  Calibre,  Ampacidad (A)
 tablaw= [r1;r2;r3;r4;r5;r6;r7;r8;r9;r10;r11;r12];
 renglones= size(tablaw, 1)
-dif= 5 % Amperes de holgura
+dif= 5 %   Amperes de holgura
 
 for renglon= 1: renglones
     
@@ -175,25 +179,26 @@ for renglon= 1: renglones
     
 end
 
-%NOM pagina 38 y 74 (Datos de interruptores)
-tablaint= [15,20,25,30,35,40,45,50,60,70,80,90,100,110,125,150,175,200,225,250,300,350,400,450,500]; %interruptores
+%  NOM pagina 38 y 74 (Datos de interruptores)
+tablaint= [15,20,25,30,35,40,45,50,60,70,80,90,100,110,125,150,175,200,225,250,300,350,400,450,500]; %  interruptores
 disp( 'Se propone un interruptor de:')
 interruptor= tablaint(1)
-capinterruptor= interruptor*ampacidad % 80% de la capacidad maxima del conductor
+capinterruptor= interruptor*ampacidad %   80% de la capacidad maxima del conductor
 
-%NOM pagina 137 (conductores)
-pmax= vln*capinterruptor %potencia maxima por circuito derivado
+%  NOM pagina 137 (conductores)
+pmax= vln*capinterruptor %  potencia maxima por circuito derivado
 mincircuitos= ceil( pd/pmax )
 
-%Becerril pag. 200,  harper residenciales pag. 97
-%desbalance= ((cmayor-cmenor)/cmayor)*100
+%  Becerril pag. 200,  harper residenciales pag. 97
+%  desbalance= ((cmayor-cmenor)/cmayor)*100
 
-tabkva1= [ 5;10;15;25;37.5;50;75;100;167;250;333;500 ];
-tabkva3= [ 30;45;75;112.5;150;225;300;500 ];
+%Tabla de transformadores Gonen pag 94
+tabkva1= [ 5; 10; 15; 25; 37.5; 50; 75; 100; 167; 250; 333; 500 ];
+tabkva3= [ 15; 30; 45; 75; 112.5; 150; 225; 300; 500; 750; 1000 ];
 
 
-kvaCal1= (itab*vll)/1000 %potencia para un monofasico
-kvaCal3=  kvaCal1*sqrt(3) %potencia para un trifasico
+kvaCal1= (fk*itab*vll)/1000 %  potencia para un monofasico
+kvaCal3=  kvaCal1*sqrt(3) %  potencia para un trifasico
 
 renglones= size( tabkva1, 1 );
 for renglon= 1: renglones
@@ -215,7 +220,7 @@ for renglon= 1: renglones
     end
 end
 
-itap= ical*tap %umbral para que opere la protección del interruptor principal
+itap= ical*tap %  umbral para que opere la protección del interruptor principal
 
 columnas= size( tablaint, 2 );
 
@@ -228,4 +233,4 @@ for columna= 1: columnas
     end
 end
 
- %%LOS ARMONICOS CAUSAN CALENTAMIENTOS EN LOS CONDUCTORES Y PERDIDAS EN UN TRANSFORMADOR
+ % !  % ! LOS ARMONICOS CAUSAN CALENTAMIENTOS EN LOS CONDUCTORES Y PERDIDAS EN UN TRANSFORMADOR
